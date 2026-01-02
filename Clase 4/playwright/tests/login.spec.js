@@ -1,5 +1,6 @@
-const { test, expect} = require ('@playwright/test')
-const {USERpositive, PASSWORDpositive} = process.env;      
+const { test, expect} = require ('@playwright/test');
+const {USERpositive, PASSWORDpositive} = process.env;
+const LoginPage = require('../pageObjects/login.page')      
 
 test.describe ('Login', ()=>{
 test.beforeEach(async ({page}) =>{
@@ -8,13 +9,10 @@ await page.goto ('')
 
 
 })
-test ('Positive Login', async ({page}) =>{
-
-    
-    await page.locator ('[name="email"]').fill(USERpositive)
-    await page.locator ('[name="password"]').fill(PASSWORDpositive)
+test.only ('Positive Login', async ({page}) =>{
     await page.pause()
-    await page.locator ('.css-vpvbzj button').click()
+    const loginPage= new LoginPage(page)
+    await loginPage.login(USERpositive, PASSWORDpositive)
     await page.waitForTimeout(4000)
     await page.pause()
     const pagelogo = page.locator (".css-1kofo1f svg")
